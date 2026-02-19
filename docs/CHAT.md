@@ -28,18 +28,6 @@ Type these in the input area:
 | `/exit`, `/quit`, `/q` | Exit the chat |
 | `/help` | Show help |
 
-### Choosing an Agent
-
-Agents are specialized assistants for different tasks. By default, the CLI uses the `grafana_assistant_cli` agent, but you can select a different one:
-
-```bash
-# Use a specific agent
-grafana-assistant chat --agent investigation_agent
-
-# List available agents first
-grafana-assistant agents
-```
-
 ### Resuming a Conversation
 
 Every chat session has a context ID. You can resume a previous session in two ways:
@@ -69,7 +57,6 @@ Press `y` to approve or `n` / `Esc` to deny. The assistant will continue the con
 | `--url, -u` | Grafana instance URL | from config |
 | `--token, -t` | Service account token | from config |
 | `--instance, -i` | Instance name from config | current instance |
-| `--agent, -a` | Agent ID | `grafana_assistant_cli` |
 | `--context, -c` | Context ID to resume | new session |
 | `--continue` | Continue the last session | `false` |
 | `--timeout` | Timeout per request (seconds) | `300` |
@@ -109,7 +96,6 @@ Output format:
 {
   "taskId": "a2a-task-123",
   "contextId": "uuid-for-threading",
-  "agentId": "grafana_assistant_cli",
   "status": "completed",
   "response": "The agent's response text..."
 }
@@ -133,38 +119,10 @@ On failure, an `error` field is included:
 | `--url, -u` | Grafana instance URL | from config |
 | `--token, -t` | Service account token | from config |
 | `--instance, -i` | Instance name from config | current instance |
-| `--agent, -a` | Agent ID | `grafana_assistant_cli` |
 | `--wait, -w` | Wait for completion | `true` |
 | `--timeout` | Timeout in seconds | `300` |
 | `--context, -c` | Context ID for threading | auto-generated |
 | `--json` | Output as JSON | `false` |
-
-## Listing Agents
-
-The `agents` command shows which agents are available on your Grafana instance:
-
-```bash
-grafana-assistant agents
-```
-
-Example output:
-
-```
-Available Agents:
------------------
-
-  Grafana Assistant (Web)
-    ID:          grafana_assistant_web
-    Name:        Grafana Assistant (Web)
-    Description: General-purpose assistant for Grafana web interface
-    Skills:      5
-```
-
-Use `--json` for machine-readable output:
-
-```bash
-grafana-assistant agents --json
-```
 
 ## Examples
 

@@ -128,9 +128,6 @@ grafana-assistant prompt "Analyze my dashboard" \
   --url https://your-stack.grafana.net \
   --token $GRAFANA_SA_TOKEN
 
-# Specify a different agent
-grafana-assistant prompt "Investigate the alert" --agent investigation_agent
-
 # Set a custom timeout (default: 300 seconds)
 grafana-assistant prompt "Query error rates from Prometheus" --timeout 600
 
@@ -139,19 +136,6 @@ grafana-assistant prompt "Now show me the last 24 hours" --context "previous-con
 
 # Output as JSON (for scripting)
 grafana-assistant prompt "Analyze my dashboard" --json
-```
-
-### List Available Agents
-
-```bash
-# List all available agents
-grafana-assistant agents
-
-# Using a specific instance
-grafana-assistant agents --instance prod
-
-# Output as JSON
-grafana-assistant agents --json
 ```
 
 ## CLI Reference
@@ -163,7 +147,6 @@ grafana-assistant agents --json
 | `--url, -u`      | Grafana instance URL                     | -                       |
 | `--token, -t`    | Service account token                    | -                       |
 | `--instance, -i` | Instance name from config                | -                       |
-| `--agent, -a`    | Agent ID to use                          | `grafana_assistant_web` |
 | `--context, -c`  | Context ID for conversation continuation | -                       |
 | `--continue`     | Continue the previous chat session       | `false`                 |
 | `--timeout`      | Timeout in seconds per request           | `300`                   |
@@ -175,20 +158,10 @@ grafana-assistant agents --json
 | `--url, -u`      | Grafana instance URL                  | -                       |
 | `--token, -t`    | Service account token                 | -                       |
 | `--instance, -i` | Instance name from config             | -                       |
-| `--agent, -a`    | Agent ID to use                       | `grafana_assistant_web` |
 | `--wait, -w`     | Wait for completion                   | `true`                  |
 | `--timeout`      | Timeout in seconds                    | `300`                   |
 | `--context, -c`  | Context ID for conversation threading | auto-generated          |
 | `--json`         | Output as JSON                        | `false`                 |
-
-### Agents Command
-
-| Option           | Description               | Default |
-| ---------------- | ------------------------- | ------- |
-| `--url, -u`      | Grafana instance URL      | -       |
-| `--token, -t`    | Service account token     | -       |
-| `--instance, -i` | Instance name from config | -       |
-| `--json`         | Output as JSON            | `false` |
 
 ### Auth Command
 
@@ -264,29 +237,12 @@ When using `--json` with the `prompt` command, the output format is:
 {
   "taskId": "a2a-task-123",
   "contextId": "uuid-for-threading",
-  "agentId": "grafana_assistant_web",
   "status": "completed",
   "response": "The agent's response text..."
 }
 ```
 
 Possible status values: `completed`, `failed`, `timeout`, `canceled`, `unknown`
-
-### Agents Response
-
-```json
-{
-  "status": "success",
-  "agents": [
-    {
-      "id": "grafana_assistant_web",
-      "name": "Grafana Assistant (Web)",
-      "description": "General-purpose assistant for Grafana web interface",
-      "skills": 5
-    }
-  ]
-}
-```
 
 ## Tool Approval Flow
 
@@ -318,7 +274,6 @@ When you deny a tool, the assistant will be informed and will continue the conve
 This CLI uses the A2A (Agent-to-Agent) Protocol v0.3.0 for communication:
 
 - **Streaming**: Real-time SSE streaming of agent responses
-- **Multi-agent**: Support for different specialized agents
 - **Context threading**: Continue conversations with context IDs
 - **Standard protocol**: JSON-RPC 2.0 over HTTP with SSE
 

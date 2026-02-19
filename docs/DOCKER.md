@@ -357,7 +357,8 @@ services:
     volumes:
       - ${{ github.workspace }}:/projects/repo:ro
     env:
-      GRAFANA_TUNNEL_TOKEN: ${{ secrets.GRAFANA_TUNNEL_TOKEN }}
+      GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
+      GRAFANA_SA_TOKEN: ${{ secrets.GRAFANA_SA_TOKEN }}
 ```
 
 ### GitLab CI
@@ -368,10 +369,11 @@ services:
     alias: tunnel
     command: ["tunnel", "connect", "--filesystem"]
     variables:
-      GRAFANA_TUNNEL_TOKEN: $GRAFANA_TUNNEL_TOKEN
+      GRAFANA_URL: $GRAFANA_URL
+      GRAFANA_SA_TOKEN: $GRAFANA_SA_TOKEN
 ```
 
-> **Note:** CI/CD usage requires a tunnel token that can be passed via environment variable rather than config file. This feature may require additional setup.
+> **Note:** CI/CD usage requires a service account token passed via the `GRAFANA_URL` and `GRAFANA_SA_TOKEN` environment variables. See [Setup & Authentication](SETUP.md) for how to create a service account token.
 
 ## Security Considerations
 
