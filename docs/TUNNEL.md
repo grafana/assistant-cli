@@ -30,15 +30,15 @@ The tunnel uses the same credentials as the rest of the CLI. Run `grafana-assist
 ### Checking Auth Status
 
 ```bash
-grafana-assistant tunnel status
+grafana-assistant config list
 ```
 
-This shows which instances are authenticated for tunnel access:
+This shows all configured instances and their authentication status:
 
 ```
-INSTANCE        URL                           TUNNEL AUTH      DEVICE
-mystack (current)  https://mystack.grafana.net  Authenticated  bens-laptop
-prod            https://prod.grafana.net      Not authenticated  -
+CURRENT  NAME     URL                           AUTH               API ENDPOINT
+*        mystack  https://mystack.grafana.net   Authenticated      https://mystack.grafana.net/api/cli/v1
+         prod     https://prod.grafana.net      Not authenticated  -
 ```
 
 ## Connecting
@@ -218,7 +218,6 @@ Quick example:
 docker run --rm -it \
   -p 54321:54321 \
   -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant \
-  --entrypoint grafana-assistant \
   grafana/assistant-cli:latest \
   auth --bind 0.0.0.0
 
@@ -228,7 +227,8 @@ docker run -d \
   --restart unless-stopped \
   -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant:ro \
   -v ~/projects/my-app:/projects/my-app:ro \
-  grafana/assistant-cli:latest
+  grafana/assistant-cli:latest \
+  tunnel connect --filesystem
 ```
 
 ## Security
