@@ -39,7 +39,7 @@ Browser-based auth uses a secure PKCE flow to authenticate you as your Grafana u
 grafana-assistant auth
 ```
 
-This grants the CLI access to chat, prompt, agents, and tunnel commands — all in one step.
+This grants the CLI access to chat, prompt, and tunnel commands — all in one step.
 
 To authenticate a specific instance (if not the current one):
 
@@ -170,9 +170,6 @@ After configuring and authenticating, verify everything works:
 ```bash
 # Check your config
 grafana-assistant config current
-
-# List available agents (confirms connectivity)
-grafana-assistant agents
 
 # Start a chat
 grafana-assistant chat

@@ -110,9 +110,9 @@ grafana-assistant config list
 
 Example output:
 ```
-CURRENT  NAME       URL                          TOKEN
-         localhost  http://localhost:3000        glsa_tes****
-*        prod       https://mystack.grafana.net  ${GRAFANA_PROD_TOKEN}
+CURRENT  NAME       URL                          AUTH                API ENDPOINT
+         localhost  http://localhost:3000         Not authenticated   -
+*        prod       https://mystack.grafana.net   Authenticated       https://assistant-api.grafana.net
 ```
 
 ### Show Current Instance
@@ -246,14 +246,14 @@ export GRAFANA_PROD_TOKEN="glsa_prod_token"
 ```bash
 # Work with localhost
 grafana-assistant config use-instance localhost
-grafana-assistant chat "Show me recent alerts"
+grafana-assistant prompt "Show me recent alerts"
 
 # Switch to production
 grafana-assistant config use-instance prod
-grafana-assistant chat "Show me recent alerts"
+grafana-assistant prompt "Show me recent alerts"
 
 # One-off command against a different instance
-grafana-assistant chat "Show me recent alerts" --instance staging
+grafana-assistant prompt "Show me recent alerts" --instance staging
 ```
 
 ## Projects Configuration
