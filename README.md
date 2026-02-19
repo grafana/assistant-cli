@@ -60,6 +60,9 @@ grafana-assistant chat
 
 The `auth` command opens your browser for a one-time login. After that, the CLI manages short-lived tokens that auto-refresh — no service account needed.
 
+> [!IMPORTANT]
+> The **Assistant CLI User** role is required to obtain access tokens via `grafana-assistant auth`. This role is automatically granted to users with the **Editor** role or above. For custom roles, the `grafana-assistant-app.tokens:access` permission must be included.
+
 For non-interactive environments (CI/CD, scripts), you can use a service account token instead:
 
 ```bash

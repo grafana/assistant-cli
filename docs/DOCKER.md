@@ -1,10 +1,10 @@
-# Running the Tunnel with Docker
+# Running with Docker
 
-Running the Grafana Assistant Tunnel as a Docker container is the simplest way to get a persistent, daemon-like tunnel without platform-specific service configuration.
+The Grafana Assistant CLI Docker image lets you run any CLI command — `prompt`, `chat`, or `tunnel connect` — without installing the binary on your host.
 
 ## Benefits
 
-- **No installation required** - Just `docker run`, no system service setup
+- **No installation required** - Just `docker run`, no binary to install
 - **Platform independent** - Works anywhere Docker runs (macOS, Linux, Windows, cloud VMs)
 - **Sandboxing included** - Container isolation provides security by default
 - **Pre-installed tools** - Comes with useful CLI tools (git, kubectl, helm, jq, etc.)
@@ -18,27 +18,52 @@ Running the Grafana Assistant Tunnel as a Docker container is the simplest way t
    docker run --rm -it \
      -p 54321:54321 \
      -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant \
-     --entrypoint grafana-assistant \
      grafana/assistant-cli:latest \
      auth --bind 0.0.0.0
    ```
-   This opens a browser for authentication. The credentials (which include tunnel access) are saved to your host's config directory.
+   This opens a browser for authentication. The credentials are saved to your host's config directory.
 
 ## Quick Start
 
+### Single-Shot Prompt
+
+Send a one-off question and get a response:
+
 ```bash
-# Basic usage - filesystem tool only
+docker run --rm \
+  -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant:ro \
+  grafana/assistant-cli:latest \
+  prompt "What alerts fired in the last hour?"
+```
+
+### Persistent Tunnel
+
+Run the tunnel as a background daemon for tool execution:
+
+```bash
 docker run -d \
   --name grafana-assistant-cli \
   --restart unless-stopped \
   -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant:ro \
   -v ~/projects/my-app:/projects/my-app:ro \
-  grafana/assistant-cli:latest
+  grafana/assistant-cli:latest \
+  tunnel connect --filesystem
 ```
 
-## Docker Compose (Recommended)
+### Interactive Chat
 
-For easier management, use Docker Compose. Copy the example from the repository:
+The `chat` command requires a terminal (TUI), so pass `-it`:
+
+```bash
+docker run --rm -it \
+  -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant:ro \
+  grafana/assistant-cli:latest \
+  chat
+```
+
+## Docker Compose (Recommended for Tunnel)
+
+For easier management of a persistent tunnel, use Docker Compose. Copy the example from the repository:
 
 ```bash
 curl -o docker-compose.yaml https://raw.githubusercontent.com/grafana/assistant-cli/main/docker-compose.yaml
@@ -77,7 +102,7 @@ With this configuration, the assistant can access files like `my-app/src/main.go
 
 ### Enabling the Terminal Tool
 
-By default, only the filesystem tool is enabled. To enable the terminal tool:
+By default, only the filesystem tool is enabled for the tunnel. To enable the terminal tool:
 
 ```bash
 docker run -d \
@@ -85,7 +110,7 @@ docker run -d \
   -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant:ro \
   -v ~/projects/my-app:/projects/my-app:ro \
   grafana/assistant-cli:latest \
-  --filesystem --terminal
+  tunnel connect --filesystem --terminal
 ```
 
 > **Caution:** The terminal tool allows the assistant to execute shell commands inside the container. Only enable it if needed.
@@ -135,7 +160,7 @@ Pass through environment variables for use by the terminal tool:
 If you have multiple Grafana instances configured:
 
 ```bash
-grafana/assistant-cli:latest --filesystem --instance prod
+grafana/assistant-cli:latest tunnel connect --filesystem --instance prod
 ```
 
 ### Resource Limits
@@ -200,11 +225,10 @@ Build and use your custom image:
 
 ```bash
 docker build -t my-assistant-cli .
-docker run -d \
-  --name grafana-assistant-cli \
+docker run --rm \
   -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant:ro \
-  -v ~/projects:/projects:ro \
-  my-assistant-cli
+  my-assistant-cli \
+  prompt "What alerts are firing?"
 ```
 
 ### Common Extensions
@@ -273,7 +297,6 @@ You need to authenticate first:
 docker run --rm -it \
   -p 54321:54321 \
   -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant \
-  --entrypoint grafana-assistant \
   grafana/assistant-cli:latest \
   auth --bind 0.0.0.0
 ```
@@ -317,7 +340,7 @@ Run interactively to debug:
 docker run -it --rm \
   -v ~/.config/grafana-assistant:/home/tunnel/.config/grafana-assistant:ro \
   grafana/assistant-cli:latest \
-  --filesystem --verbose
+  tunnel connect --filesystem --verbose
 ```
 
 ## CI/CD Usage
@@ -330,6 +353,7 @@ The tunnel can run in CI/CD environments to give Grafana Assistant access to you
 services:
   tunnel:
     image: grafana/assistant-cli:latest
+    command: ["tunnel", "connect", "--filesystem"]
     volumes:
       - ${{ github.workspace }}:/projects/repo:ro
     env:
@@ -342,6 +366,7 @@ services:
 services:
   - name: grafana/assistant-cli:latest
     alias: tunnel
+    command: ["tunnel", "connect", "--filesystem"]
     variables:
       GRAFANA_TUNNEL_TOKEN: $GRAFANA_TUNNEL_TOKEN
 ```
