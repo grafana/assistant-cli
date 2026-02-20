@@ -1,10 +1,12 @@
-# grafana-assistant
+# Grafana Assistant CLI
 
 > **Warning: Experimental - Private Preview**
 >
 > This package is currently in **private preview** and is considered **experimental**. APIs and features may change without notice. Use at your own risk and do not rely on it for production workloads.
 
 CLI for interacting with Grafana Assistant via the A2A (Agent-to-Agent) API.
+
+![Interactive chat session with Grafana Assistant CLI](docs/images/chat-screenshot.png)
 
 ## Installation
 
@@ -34,12 +36,6 @@ Or download the archive for your platform directly from the [latest release](htt
 #### Windows
 
 Download the `.zip` archive for your platform from the [latest release](https://github.com/grafana/assistant-cli/releases/latest), extract it, and add the `grafana-assistant.exe` binary to your `PATH`.
-
-### Install from GitHub Releases using `go`
-
-```bash
-go install github.com/grafana/assistant-cli/cmd/grafana-assistant@latest
-```
 
 ## Quick Start
 
