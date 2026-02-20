@@ -1,0 +1,34 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## 0.0.13 (2026-02-20)
+
+
+### Features
+
+* **release:** add Homebrew formula generation (#89)
+
+
+### Bug Fixes
+
+* **release:** attach Homebrew cask to GitHub release (#90)
+* **release:** set manifest version to prevent 1.0.0 bump (#95)
+* **release:** strip internal repo links from changelog before public sync (#97)
+
+## [Unreleased]
+
+### Added
+
+- Initial release of grafana-assistant CLI
+- Interactive chat mode with SSE streaming support
+- Single prompt mode for scripting
+- Configurable API endpoints and authentication
+- Cross-platform builds (Linux, macOS, Windows)
+- Interactive tool approval flow in chat mode
+  - Prompt user for approval before executing sensitive tools
+  - Support for approve (y/Y) and deny (n/N/Esc) actions
+  - Visual feedback showing approval status and tool information
