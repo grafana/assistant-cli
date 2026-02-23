@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.0.15 (2026-02-23)
+
+
+### Features
+
+* add interactive prompts and AGENTS.md generation following Claude's best practices (#104)
+* **prompt:** add `--continue` flag support (#103)
+* **release:** auto-publish Homebrew formula on release (#100)
+
+
+### Bug Fixes
+
+* **release:** place Homebrew cask in Casks/ directory (#102)
+
 ## 0.0.14 (2026-02-20)
 
 

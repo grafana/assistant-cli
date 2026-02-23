@@ -130,10 +130,10 @@ grafana-assistant prompt "Show recent alerts" --instance prod
 
 The CLI supports two config file locations:
 
-| Location | Path | Use case |
-|----------|------|----------|
-| **Home** | `~/.config/grafana-assistant/config.yaml` | Personal settings, tokens |
-| **Local** | `./grafana-assistant.yaml` | Project-specific, shared with team |
+| Location  | Path                                      | Use case                           |
+| --------- | ----------------------------------------- | ---------------------------------- |
+| **Home**  | `~/.config/grafana-assistant/config.yaml` | Personal settings, tokens          |
+| **Local** | `./grafana-assistant.yaml`                | Project-specific, shared with team |
 
 The local config takes priority over the home config. Use the `--local` flag with any `config` subcommand to target the local file:
 
@@ -157,11 +157,11 @@ instances:
 
 ## Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `GRAFANA_URL` | Grafana instance URL (overrides config) |
-| `GRAFANA_SA_TOKEN` | Service account token (overrides config) |
-| `GRAFANA_ASSISTANT_CONFIG` | Override config file path entirely |
+| Variable                   | Description                              |
+| -------------------------- | ---------------------------------------- |
+| `GRAFANA_URL`              | Grafana instance URL (overrides config)  |
+| `GRAFANA_SA_TOKEN`         | Service account token (overrides config) |
+| `GRAFANA_ASSISTANT_CONFIG` | Override config file path entirely       |
 
 ## Verifying Your Setup
 

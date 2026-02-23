@@ -67,7 +67,7 @@ grafana-assistant config set-instance mystack \
   --token '${GRAFANA_SA_TOKEN}'
 ```
 
-Configuration is stored in `~/.config/grafana-assistant/config.yaml` by default, or `./grafana-assistant.yaml` for project-specific configs. Session state (last chat ID for `--continue`) is stored in `~/.config/grafana-assistant/state.yaml`.
+Configuration is stored in `~/.config/grafana-assistant/config.yaml` by default, or `./grafana-assistant.yaml` for project-specific configs. Session state (last context ID for `--continue`) is stored in `~/.config/grafana-assistant/state.yaml`.
 
 For detailed setup instructions, see [docs/SETUP.md](docs/SETUP.md). For the full config file reference, see [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
 
@@ -130,41 +130,72 @@ grafana-assistant prompt "Query error rates from Prometheus" --timeout 600
 # Continue a conversation with context ID
 grafana-assistant prompt "Now show me the last 24 hours" --context "previous-context-id"
 
+# Continue the most recent chat/prompt session
+grafana-assistant prompt "Now show me the last 24 hours" --continue
+
 # Output as JSON (for scripting)
 grafana-assistant prompt "Analyze my dashboard" --json
+
+# Generate an AGENTS.md file for the current directory
+grafana-assistant agents-md
 ```
 
 ## CLI Reference
 
 ### Chat Command (Interactive)
 
-| Option           | Description                              | Default                 |
-| ---------------- | ---------------------------------------- | ----------------------- |
-| `--url, -u`      | Grafana instance URL                     | -                       |
-| `--token, -t`    | Service account token                    | -                       |
-| `--instance, -i` | Instance name from config                | -                       |
-| `--context, -c`  | Context ID for conversation continuation | -                       |
-| `--continue`     | Continue the previous chat session       | `false`                 |
-| `--timeout`      | Timeout in seconds per request           | `300`                   |
+| Option           | Description                              | Default |
+| ---------------- | ---------------------------------------- | ------- |
+| `--url, -u`      | Grafana instance URL                     | -       |
+| `--token, -t`    | Service account token                    | -       |
+| `--instance, -i` | Instance name from config                | -       |
+| `--context, -c`  | Context ID for conversation continuation | -       |
+| `--continue`     | Continue the previous chat session       | `false` |
+| `--timeout`      | Timeout in seconds per request           | `300`   |
 
 ### Prompt Command (Non-Interactive)
 
-| Option           | Description                           | Default                 |
-| ---------------- | ------------------------------------- | ----------------------- |
-| `--url, -u`      | Grafana instance URL                  | -                       |
-| `--token, -t`    | Service account token                 | -                       |
-| `--instance, -i` | Instance name from config             | -                       |
-| `--wait, -w`     | Wait for completion                   | `true`                  |
-| `--timeout`      | Timeout in seconds                    | `300`                   |
-| `--context, -c`  | Context ID for conversation threading | auto-generated          |
-| `--json`         | Output as JSON                        | `false`                 |
+| Option           | Description                           | Default        |
+| ---------------- | ------------------------------------- | -------------- |
+| `--url, -u`      | Grafana instance URL                  | -              |
+| `--token, -t`    | Service account token                 | -              |
+| `--instance, -i` | Instance name from config             | -              |
+| `--wait, -w`     | Wait for completion                   | `true`         |
+| `--timeout`      | Timeout in seconds                    | `300`          |
+| `--context, -c`  | Context ID for conversation threading | auto-generated |
+| `--continue`     | Continue the previous chat session    | `false`        |
+| `--json`         | Output as JSON                        | `false`        |
 
 ### Auth Command
 
-| Command                  | Description                                    |
-| ------------------------ | ---------------------------------------------- |
-| `auth`                   | Authenticate via browser (recommended)         |
-| `auth --instance <name>` | Authenticate a specific instance               |
+| Command                  | Description                            |
+| ------------------------ | -------------------------------------- |
+| `auth`                   | Authenticate via browser (recommended) |
+| `auth --instance <name>` | Authenticate a specific instance       |
+
+### Agent MD Command
+
+Generate an `AGENTS.md` file with practical guidance for using `grafana-assistant`
+in a project. When run interactively it reads configured instances and lets you
+choose which ones to include with their real URLs pre-filled.
+
+```bash
+# Generate AGENTS.md in the current directory (interactive)
+grafana-assistant agents-md
+
+# Generate into a specific directory and overwrite existing files
+grafana-assistant agents-md ~/projects/my-app --force
+
+# Skip interactive prompts (CI / scripting)
+grafana-assistant agents-md --non-interactive
+```
+
+| Option              | Description                                                 | Default    |
+| ------------------- | ----------------------------------------------------------- | ---------- |
+| `--output, -o`      | Output filename to create in target directory               | `AGENTS.md` |
+| `--force, -f`       | Overwrite output file if it already exists                  | `false`    |
+| `--dry-run`         | Print generated content to stdout instead of writing a file | `false`    |
+| `--non-interactive` | Skip interactive prompts (use generic placeholders)         | `false`    |
 
 ### Config Commands
 
@@ -200,6 +231,7 @@ grafana-assistant tunnel connect --terminal
 The `auth` command includes the `tunnel:connect` scope, so no separate tunnel auth step is needed.
 
 The tunnel provides:
+
 - **Filesystem tool**: Read-only access to local files with project-based configuration
   - Configure named projects (e.g., `my-app` → `~/projects/my-app`)
   - Access files with project-relative paths (e.g., `src/main.go`)
@@ -208,6 +240,7 @@ The tunnel provides:
 - **Terminal tool**: Execute shell commands (with configurable allow/deny lists)
 
 For security, the tunnel:
+
 - Blocks access to sensitive files (`.ssh`, `.env`, private keys, etc.) by default
 - Blocks dangerous commands (`rm -rf /`, `mkfs`, fork bombs, etc.) by default
 - Runs commands with a minimal environment (only `PATH`, `HOME`, `USER`, etc.)
@@ -257,11 +290,11 @@ Approve execute_query - Execute a database query? [y]/[n]
 
 ### Approval Keys
 
-| Key | Action |
-|-----|--------|
+| Key        | Action                     |
+| ---------- | -------------------------- |
 | `y` or `Y` | Approve the tool execution |
-| `n` or `N` | Deny the tool execution |
-| `Esc` | Deny the tool execution |
+| `n` or `N` | Deny the tool execution    |
+| `Esc`      | Deny the tool execution    |
 
 When you deny a tool, the assistant will be informed and will continue the conversation without executing that tool.
 

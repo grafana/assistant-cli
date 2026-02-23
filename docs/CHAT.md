@@ -12,21 +12,21 @@ grafana-assistant chat
 
 ### Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `Enter` | Send message |
+| Key      | Action                                  |
+| -------- | --------------------------------------- |
+| `Enter`  | Send message                            |
 | `Ctrl+C` | Cancel current request, or exit if idle |
-| `Ctrl+D` | Exit |
+| `Ctrl+D` | Exit                                    |
 
 ### Chat Commands
 
 Type these in the input area:
 
-| Command | Action |
-|---------|--------|
-| `/clear` or `/new` | Start a new conversation |
-| `/exit`, `/quit`, `/q` | Exit the chat |
-| `/help` | Show help |
+| Command                | Action                   |
+| ---------------------- | ------------------------ |
+| `/clear` or `/new`     | Start a new conversation |
+| `/exit`, `/quit`, `/q` | Exit the chat            |
+| `/help`                | Show help                |
 
 ### Resuming a Conversation
 
@@ -52,14 +52,14 @@ Press `y` to approve or `n` / `Esc` to deny. The assistant will continue the con
 
 ### Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--url, -u` | Grafana instance URL | from config |
-| `--token, -t` | Service account token | from config |
-| `--instance, -i` | Instance name from config | current instance |
-| `--context, -c` | Context ID to resume | new session |
-| `--continue` | Continue the last session | `false` |
-| `--timeout` | Timeout per request (seconds) | `300` |
+| Flag             | Description                   | Default          |
+| ---------------- | ----------------------------- | ---------------- |
+| `--url, -u`      | Grafana instance URL          | from config      |
+| `--token, -t`    | Service account token         | from config      |
+| `--instance, -i` | Instance name from config     | current instance |
+| `--context, -c`  | Context ID to resume          | new session      |
+| `--continue`     | Continue the last session     | `false`          |
+| `--timeout`      | Timeout per request (seconds) | `300`            |
 
 ## Single-Shot Prompt
 
@@ -80,6 +80,9 @@ grafana-assistant prompt "Show me the error rate for the payments service"
 # Follow up using the context ID from the previous response
 grafana-assistant prompt "Now show me the last 24 hours" \
   --context "abc123-def456"
+
+# Continue the last session automatically
+grafana-assistant prompt "Now show me the last 24 hours" --continue
 ```
 
 ### JSON Output
@@ -114,15 +117,16 @@ On failure, an `error` field is included:
 
 ### Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--url, -u` | Grafana instance URL | from config |
-| `--token, -t` | Service account token | from config |
+| Flag             | Description               | Default          |
+| ---------------- | ------------------------- | ---------------- |
+| `--url, -u`      | Grafana instance URL      | from config      |
+| `--token, -t`    | Service account token     | from config      |
 | `--instance, -i` | Instance name from config | current instance |
-| `--wait, -w` | Wait for completion | `true` |
-| `--timeout` | Timeout in seconds | `300` |
-| `--context, -c` | Context ID for threading | auto-generated |
-| `--json` | Output as JSON | `false` |
+| `--wait, -w`     | Wait for completion       | `true`           |
+| `--timeout`      | Timeout in seconds        | `300`            |
+| `--context, -c`  | Context ID for threading  | auto-generated   |
+| `--continue`     | Continue the last session | `false`          |
+| `--json`         | Output as JSON            | `false`          |
 
 ## Examples
 

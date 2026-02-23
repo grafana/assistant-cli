@@ -62,10 +62,10 @@ The tunnel runs in the foreground until you press `Ctrl+C`.
 
 The tunnel provides two tools that the assistant can use:
 
-| Tool | Default | Description |
-|------|---------|-------------|
-| **Filesystem** | Enabled | Read-only access to project files, search, and directory listing |
-| **Terminal** | Disabled | Execute shell commands on your machine |
+| Tool           | Default  | Description                                                      |
+| -------------- | -------- | ---------------------------------------------------------------- |
+| **Filesystem** | Enabled  | Read-only access to project files, search, and directory listing |
+| **Terminal**   | Disabled | Execute shell commands on your machine                           |
 
 Control which tools are active:
 
@@ -125,10 +125,12 @@ grafana-assistant tunnel daemon install
 ```
 
 This creates a platform-specific service:
+
 - **macOS**: launchd user agent (`~/Library/LaunchAgents/`)
 - **Linux**: systemd user service
 
 By default, the daemon:
+
 - Connects to the current instance
 - Enables tools based on your config file
 - Starts automatically on login
@@ -277,6 +279,7 @@ grafana-assistant tunnel daemon logs
 ```
 
 Common issues:
+
 - Config file not found — ensure `~/.config/grafana-assistant/config.yaml` exists
 - Auth tokens expired — re-run `grafana-assistant auth`
 - Another instance already running — check with `grafana-assistant tunnel daemon status`
