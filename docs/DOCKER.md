@@ -178,17 +178,17 @@ docker run -d \
 
 The container includes these tools for use with the terminal tool:
 
-| Category | Tools |
-|----------|-------|
-| Version Control | git, git-lfs, openssh-client |
-| Build | make, build-essential (gcc, g++, etc.) |
-| Data Processing | jq, yq |
-| Text Processing | grep, sed, gawk |
-| File Utilities | findutils, tree, file |
-| Kubernetes | kubectl, helm |
-| Network | curl, wget, dnsutils, netcat |
-| Shell | bash |
-| Process | procps (ps, top, etc.) |
+| Category        | Tools                                  |
+| --------------- | -------------------------------------- |
+| Version Control | git, git-lfs, openssh-client           |
+| Build           | make, build-essential (gcc, g++, etc.) |
+| Data Processing | jq, yq                                 |
+| Text Processing | grep, sed, gawk                        |
+| File Utilities  | findutils, tree, file                  |
+| Kubernetes      | kubectl, helm                          |
+| Network         | curl, wget, dnsutils, netcat           |
+| Shell           | bash                                   |
+| Process         | procps (ps, top, etc.)                 |
 
 ## Extending the Image
 
@@ -234,12 +234,14 @@ docker run --rm \
 ### Common Extensions
 
 **Build Tools (gcc, g++, etc.):**
+
 ```dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
     && rm -rf /var/lib/apt/lists/*
 ```
 
 **AWS CLI:**
+
 ```dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
     && pip3 install --break-system-packages awscli \
@@ -247,12 +249,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
 ```
 
 **Node.js:**
+
 ```dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm \
     && rm -rf /var/lib/apt/lists/*
 ```
 
 **Terraform:**
+
 ```dockerfile
 RUN curl -sSL https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_amd64.zip -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /usr/local/bin \
@@ -260,6 +264,7 @@ RUN curl -sSL https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_lin
 ```
 
 **Database Clients:**
+
 ```dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-client \
@@ -328,6 +333,7 @@ docker logs grafana-assistant-cli
 ```
 
 Common issues:
+
 - Config file not found or malformed
 - Authentication token expired (re-run `grafana-assistant auth`)
 - Network connectivity to Grafana

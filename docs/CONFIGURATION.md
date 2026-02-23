@@ -33,17 +33,18 @@ instances:
 
 Each instance can have two types of credentials:
 
-| Field | Set by | Description |
-|-------|--------|-------------|
-| `url` | `config set-instance` | Grafana instance URL |
-| `token` | `config set-instance` | Service account token (supports `${ENV_VAR}` syntax) |
-| `cli_token` | `auth` | Short-lived access token (`gat_...`) from browser login |
-| `cli_token_expires_at` | `auth` | Expiration time of the CLI token (RFC 3339) |
-| `cli_refresh_token` | `auth` | Refresh token (`gar_...`) for obtaining new access tokens |
-| `cli_refresh_expires_at` | `auth` | Expiration time of the refresh token (RFC 3339) |
-| `api_endpoint` | `auth` | Direct API endpoint URL (bypasses Grafana plugin proxy) |
+| Field                    | Set by                | Description                                               |
+| ------------------------ | --------------------- | --------------------------------------------------------- |
+| `url`                    | `config set-instance` | Grafana instance URL                                      |
+| `token`                  | `config set-instance` | Service account token (supports `${ENV_VAR}` syntax)      |
+| `cli_token`              | `auth`                | Short-lived access token (`gat_...`) from browser login   |
+| `cli_token_expires_at`   | `auth`                | Expiration time of the CLI token (RFC 3339)               |
+| `cli_refresh_token`      | `auth`                | Refresh token (`gar_...`) for obtaining new access tokens |
+| `cli_refresh_expires_at` | `auth`                | Expiration time of the refresh token (RFC 3339)           |
+| `api_endpoint`           | `auth`                | Direct API endpoint URL (bypasses Grafana plugin proxy)   |
 
 You don't need to set all of these. A typical instance needs either:
+
 - **Browser auth** (recommended): just `url`, then run `grafana-assistant auth` to populate the `cli_*` and `api_endpoint` fields automatically.
 - **Service account**: `url` and `token` — no `auth` step needed.
 
@@ -109,6 +110,7 @@ grafana-assistant config list
 ```
 
 Example output:
+
 ```
 CURRENT  NAME       URL                          AUTH                API ENDPOINT
          localhost  http://localhost:3000         Not authenticated   -
@@ -145,11 +147,11 @@ This means you can always override the config file by passing explicit flags or 
 
 ## Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `GRAFANA_URL` | Grafana instance URL (overrides config) |
-| `GRAFANA_SA_TOKEN` | Service account token (overrides config) |
-| `GRAFANA_ASSISTANT_CONFIG` | Override config file path |
+| Variable                   | Description                              |
+| -------------------------- | ---------------------------------------- |
+| `GRAFANA_URL`              | Grafana instance URL (overrides config)  |
+| `GRAFANA_SA_TOKEN`         | Service account token (overrides config) |
+| `GRAFANA_ASSISTANT_CONFIG` | Override config file path                |
 
 ## Security
 
@@ -338,25 +340,26 @@ The assistant accesses files using project-relative paths like `my-app/src/main.
 
 #### Available Actions
 
-| Action | Description |
-|--------|-------------|
-| `list_projects` | List all configured projects |
-| `add_project` | Add a new project (persists to config) |
-| `remove_project` | Remove a project from config |
-| `read_file` | Read file contents with optional line range |
-| `list_directory` | List directory contents |
-| `grep` | Search file contents with regex (paginated) |
-| `find_path` | Find files by glob pattern (paginated) |
+| Action           | Description                                 |
+| ---------------- | ------------------------------------------- |
+| `list_projects`  | List all configured projects                |
+| `add_project`    | Add a new project (persists to config)      |
+| `remove_project` | Remove a project from config                |
+| `read_file`      | Read file contents with optional line range |
+| `list_directory` | List directory contents                     |
+| `grep`           | Search file contents with regex (paginated) |
+| `find_path`      | Find files by glob pattern (paginated)      |
 
 #### Configuration Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `projects` | Named project directories | None |
-| `allowed_paths` | Additional paths outside projects | None |
-| `deny_paths` | Paths that are never accessible | See below |
+| Option          | Description                       | Default   |
+| --------------- | --------------------------------- | --------- |
+| `projects`      | Named project directories         | None      |
+| `allowed_paths` | Additional paths outside projects | None      |
+| `deny_paths`    | Paths that are never accessible   | See below |
 
 **Default denied paths** (always enforced):
+
 - `~/.ssh` - SSH keys
 - `~/.gnupg` - GPG keys
 - `~/.aws/credentials` - AWS credentials
@@ -370,13 +373,14 @@ The assistant accesses files using project-relative paths like `my-app/src/main.
 
 The terminal tool executes shell commands on your local machine.
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `allowed_commands` | Commands that are permitted | All (if empty) |
-| `deny_commands` | Commands that are blocked | See below |
-| `passthrough_env` | Extra env vars to pass to commands | None |
+| Option             | Description                        | Default        |
+| ------------------ | ---------------------------------- | -------------- |
+| `allowed_commands` | Commands that are permitted        | All (if empty) |
+| `deny_commands`    | Commands that are blocked          | See below      |
+| `passthrough_env`  | Extra env vars to pass to commands | None           |
 
 **Default denied commands** (always enforced):
+
 - `rm -rf /`, `rm -rf /*` - Destructive deletion
 - `mkfs` - Filesystem formatting
 - `dd if=/dev/zero`, `dd if=/dev/random` - Disk overwrites
@@ -384,6 +388,7 @@ The terminal tool executes shell commands on your local machine.
 - `chmod -R 777 /`, `chown -R` - Mass permission changes
 
 **Default passthrough environment variables**:
+
 - `PATH`, `HOME`, `USER` - Basic shell operation
 - `SHELL`, `TERM` - Terminal configuration
 - `LANG`, `LC_ALL` - Locale settings
@@ -423,7 +428,7 @@ tunnel:
       allowed_paths:
         - /var/log/myapp
       deny_paths:
-        - "**/*.log.gz"  # Don't read archived logs
+        - "**/*.log.gz" # Don't read archived logs
     terminal:
       allowed_commands:
         - tail
@@ -447,11 +452,12 @@ tunnel:
   tools:
     filesystem:
       deny_paths:
-        - "**/node_modules/**"  # Skip dependency folders
+        - "**/node_modules/**" # Skip dependency folders
         - "**/vendor/**"
 ```
 
 With this configuration, the assistant can access files using:
+
 - `read_file` with `project: "frontend"` and `path: "src/App.tsx"`
 - `read_file` with `project: "backend"` and `path: "cmd/server/main.go"`
 - `grep` with `project: "shared"` to search across the shared libraries
