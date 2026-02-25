@@ -12,30 +12,24 @@ CLI for interacting with Grafana Assistant via the A2A (Agent-to-Agent) API.
 
 ### Download from GitHub Releases (Recommended)
 
-Download the latest pre-built binary for your platform from [GitHub Releases](https://github.com/grafana/assistant-cli/releases/latest).
-
-#### macOS / Linux
-
-Using the [GitHub CLI](https://cli.github.com/):
+#### Homebrew (macOS / Linux)
 
 ```bash
-# Download the latest release asset matching your platform
-OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-ARCH=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')
-
-gh release download --repo grafana/assistant-cli --pattern "grafana-assistant_*_${OS}_${ARCH}.tar.gz" -D /tmp
-tar -xzf /tmp/grafana-assistant_*_${OS}_${ARCH}.tar.gz -C /tmp
-sudo mv /tmp/grafana-assistant /usr/local/bin/
-
-# Verify
-grafana-assistant --help
+brew install grafana/grafana/grafana-assistant
 ```
 
-Or download the archive for your platform directly from the [latest release](https://github.com/grafana/assistant-cli/releases/latest) page, extract it, and move the `grafana-assistant` binary to a directory in your `PATH`.
+Or, if you prefer to tap first:
 
-#### Windows
+```bash
+brew tap grafana/grafana
+brew install grafana-assistant
+```
 
-Download the `.zip` archive for your platform from the [latest release](https://github.com/grafana/assistant-cli/releases/latest), extract it, and add the `grafana-assistant.exe` binary to your `PATH`.
+#### Manual download
+
+Download the latest pre-built binary for your platform from the [latest release](https://github.com/grafana/assistant-cli/releases/latest) page, extract it, and add the `grafana-assistant` binary to a directory in your `PATH`.
+
+On Windows, download the `.zip` archive instead and add `grafana-assistant.exe` to your `PATH`.
 
 ## Quick Start
 
