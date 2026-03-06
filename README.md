@@ -1,8 +1,7 @@
 # Grafana Assistant CLI
 
-> **Warning: Experimental - Private Preview**
->
-> This package is currently in **private preview** and is considered **experimental**. APIs and features may change without notice. Use at your own risk and do not rely on it for production workloads.
+ > [!NOTE]
+> This package is currently in **public preview**. APIs and features may change without notice.
 
 CLI for interacting with Grafana Assistant via the A2A (Agent-to-Agent) API.
 
@@ -10,9 +9,21 @@ CLI for interacting with Grafana Assistant via the A2A (Agent-to-Agent) API.
 
 ## Installation
 
-### Download from GitHub Releases (Recommended)
+### uvx / pip (Recommended)
 
-#### Homebrew (macOS / Linux)
+Run directly without installing:
+
+```bash
+uvx grafana-assistant
+```
+
+Or install globally:
+
+```bash
+pip install grafana-assistant
+```
+
+### Homebrew (macOS / Linux)
 
 ```bash
 brew install grafana/grafana/grafana-assistant
@@ -25,7 +36,7 @@ brew tap grafana/grafana
 brew install grafana-assistant
 ```
 
-#### Manual download
+### Manual download
 
 Download the latest pre-built binary for your platform from the [latest release](https://github.com/grafana/assistant-cli/releases/latest) page, extract it, and add the `grafana-assistant` binary to a directory in your `PATH`.
 
@@ -184,12 +195,12 @@ grafana-assistant agents-md ~/projects/my-app --force
 grafana-assistant agents-md --non-interactive
 ```
 
-| Option              | Description                                                 | Default    |
-| ------------------- | ----------------------------------------------------------- | ---------- |
+| Option              | Description                                                 | Default     |
+| ------------------- | ----------------------------------------------------------- | ----------- |
 | `--output, -o`      | Output filename to create in target directory               | `AGENTS.md` |
-| `--force, -f`       | Overwrite output file if it already exists                  | `false`    |
-| `--dry-run`         | Print generated content to stdout instead of writing a file | `false`    |
-| `--non-interactive` | Skip interactive prompts (use generic placeholders)         | `false`    |
+| `--force, -f`       | Overwrite output file if it already exists                  | `false`     |
+| `--dry-run`         | Print generated content to stdout instead of writing a file | `false`     |
+| `--non-interactive` | Skip interactive prompts (use generic placeholders)         | `false`     |
 
 ### Config Commands
 
