@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.0.23 (2026-04-15)
+
+
+### Features
+
+* **client:** allow continuing conversations from any source (#151)
+* **tui:** add Ctrl+R reverse history search (#145)
+
+
+### Bug Fixes
+
+* **deps:** update go dependencies (non-major) (#137)
+
 ## 0.0.22 (2026-03-26)
 
 
